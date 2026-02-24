@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!doctype html>
+    <html lang="uz">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>⚡ DISCIPLINA — 60 Kunlik Dastur</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+        <link rel="stylesheet" href="./main.css" />
+      </head>
+      <body>
+        <!-- TOAST -->
+        <div id="toast"></div>
+
+        <!-- HEADER -->
+        <header>
+          <div class="header-left">
+            <div class="logo">⚡</div>
+            <div class="brand">
+              <h1>Disciplina</h1>
+              <p>60 Kunlik O'zgarish Dasturi</p>
+            </div>
+          </div>
+          <div class="header-right">
+            <div class="day-badge">
+              <span class="num" id="hdr-day">1</span>
+              <span class="lbl">/ 60 kun</span>
+            </div>
+          </div>
+        </header>
+
+        <!-- NAV -->
+        <nav>
+          <button class="nav-btn active" data-view="grid">🗓️ 60 Kun</button>
+          <button class="nav-btn" data-view="day">📋 Kunlik</button>
+          <button class="nav-btn" data-view="analytics">📊 Tahlil</button>
+        </nav>
+
+        <div class="content">
+          <!-- ══ GRID VIEW ═════════════════════════════ -->
+          <div class="view active" id="view-grid">
+            <div class="grid-head">
+              <p class="grid-hint">Kunni bosib vazifalarni boshqaring</p>
+              <div class="legend">
+                <span
+                  ><span class="leg-dot" style="background: #1a2d47"></span
+                  >Bo'sh</span
+                >
+                <span
+                  ><span
+                    class="leg-dot"
+                    style="background: rgba(245, 185, 66, 0.4)"
+                  ></span
+                  >Kutayotgan</span
+                >
+                <span
+                  ><span
+                    class="leg-dot"
+                    style="background: rgba(245, 185, 66, 0.6)"
+                  ></span
+                  >Qisman</span
+                >
+                <span
+                  ><span
+                    class="leg-dot"
+                    style="background: rgba(34, 213, 155, 0.5)"
+                  ></span
+                  >Bajarildi</span
+                >
+              </div>
+            </div>
+            <div class="days-grid" id="days-grid"></div>
+          </div>
+
+          <!-- ══ DAY VIEW ══════════════════════════════ -->
+          <div class="view" id="view-day">
+            <div class="day-nav">
+              <button class="arrow-btn" id="btn-prev">◀</button>
+              <div class="day-title-wrap">
+                <span class="day-title-num" id="day-title">Kun 1</span>
+                <span class="today-tag" id="today-tag" style="display: none"
+                  >Bugun</span
+                >
+              </div>
+              <button class="arrow-btn" id="btn-next">▶</button>
+            </div>
+
+            <div class="task-list" id="task-list"></div>
+
+            <!-- ADD FORM -->
+            <div class="add-form" id="add-form" style="display: none">
+              <h3>➕ Yangi Vazifa</h3>
+              <div class="gap">
+                <div>
+                  <label>Vazifa nomi *</label>
+                  <input
+                    type="text"
+                    id="inp-name"
+                    placeholder="Masalan: 30 daqiqa kitob o'qish"
+                  />
+                </div>
+                <div>
+                  <label>Tavsif (ixtiyoriy)</label>
+                  <input
+                    type="text"
+                    id="inp-desc"
+                    placeholder="Qo'shimcha ma'lumot..."
+                  />
+                </div>
+                <div class="form-row">
+                  <div>
+                    <label>Kategoriya</label>
+                    <select id="inp-cat">
+                      <option>📚 O'qish</option>
+                      <option>💪 Sport</option>
+                      <option>💼 Ish</option>
+                      <option>🎯 Maqsad</option>
+                      <option>🧘 Salomatlik</option>
+                      <option>🎨 Kreativ</option>
+                      <option>🔧 Boshqa</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label>Vaqt (daqiqa)</label>
+                    <input
+                      type="number"
+                      id="inp-time"
+                      value="30"
+                      min="5"
+                      max="480"
+                    />
+                  </div>
+                </div>
+                <div class="form-row">
+                  <button class="btn-primary" onclick="submitTask()">
+                    ✓ Qo'shish
+                  </button>
+                  <button class="btn-secondary" onclick="closeForm()">
+                    Bekor
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <button class="add-main-btn" id="add-main-btn" onclick="openForm()">
+              + Yangi Vazifa Qo'shish
+            </button>
+
+            <div class="summary-card" id="summary-card" style="display: none">
+              <div class="summary-row">
+                <div class="sum-stat">
+                  <span class="sum-val" id="sum-done">0/0</span>
+                  <span class="sum-key">Bajarildi</span>
+                </div>
+                <div class="sum-progress">
+                  <div class="prog-bar">
+                    <div class="prog-fill" id="sum-bar" style="width: 0%"></div>
+                  </div>
+                  <span class="prog-pct" id="sum-pct">0%</span>
+                </div>
+                <div class="sum-stat">
+                  <span class="sum-val" id="sum-time">0d</span>
+                  <span class="sum-key">Vaqt sarflandi</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ══ ANALYTICS VIEW ════════════════════════ -->
+          <div class="view" id="view-analytics">
+            <h2 class="section-title">📊 Tahlil va Statistika</h2>
+
+            <div class="stats-grid" id="stats-grid"></div>
+
+            <div id="analytics-empty" class="empty-state" style="display: none">
+              <div class="ei">📈</div>
+              <p>Vazifalar qo'shilgandan so'ng tahlil ko'rinadi</p>
+            </div>
+
+            <div id="analytics-content" style="display: none">
+              <div class="chart-tabs">
+                <button class="chart-tab active" data-chart="bar">
+                  📊 Kategoriya
+                </button>
+                <button class="chart-tab" data-chart="line">📈 Kunlik</button>
+                <button class="chart-tab" data-chart="pie">🥧 Ulush</button>
+              </div>
+
+              <div class="chart-box">
+                <canvas id="main-chart"></canvas>
+              </div>
+
+              <h3
+                class="section-title"
+                style="font-size: 16px; margin-bottom: 14px"
+              >
+                📋 Batafsil jadval
+              </h3>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Kategoriya</th>
+                      <th>Jami vaqt</th>
+                      <th>Vazifalar</th>
+                      <th>Bajarildi</th>
+                      <th>Foiz</th>
+                      <th>Holat</th>
+                    </tr>
+                  </thead>
+                  <tbody id="analytics-table"></tbody>
+                </table>
+              </div>
+
+              <div class="insights-grid" id="insights-grid"></div>
+            </div>
+          </div>
+        </div>
+
+        <script src="./scipr.js"></script>
+      </body>
+    </html>
+  </body>
+</html>
